@@ -8,40 +8,38 @@ import java.util.Collections;
 import java.util.List;
 
 public class 감소하는_수 {
-    static List<Integer> data;
+    private static final List<Long> data = new ArrayList<>();
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         int N = Integer.parseInt(br.readLine());
-        data = new ArrayList<>();
 
-        if (N<=10){
+        if (N <= 10) {
             System.out.println(N);
-        }
-        else if (N>1022){
-            System.out.println("-1");
-        }
-        else {
-            for (int i=0; i<10; i++){
-                dfs(i, 1);
-            }
-            Collections.sort(data);
-            System.out.println(data.get(N));
-        }
-
-    }
-
-    public static void dfs(int number, int index){
-        if (index>10){
+            return;
+        } else if (N > 1022) {
+            System.out.println(-1);
             return;
         }
-        data.add(number);
 
-        for (int i=0; i<10; i++){
-            if (number%10 > i){
-                dfs((number*10)+i, index+1);
-            }
+        for (int i = 0; i < 10; i++) {
+            dfs(i);
         }
-        return;
+        Collections.sort(data);
+        System.out.println(data.get(N));
+    }
+
+
+    public static void dfs(long number) {
+        data.add(number);
+        long depth = number % 10;
+
+        if (depth == 0) {
+            return;
+        }
+
+        for (long i = depth - 1; i >= 0; i--) {
+            dfs(depth + i);
+        }
     }
 }
